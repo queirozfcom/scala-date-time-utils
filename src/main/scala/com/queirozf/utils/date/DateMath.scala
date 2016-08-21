@@ -1,42 +1,10 @@
-package helpers.date.parsers
+package com.queirozf.utils.date
 
-import java.time.temporal.ChronoUnit
-import java.time.{DayOfWeek, ZonedDateTime}
+import java.time.{DayOfWeek => JTDayOfWeek, ZonedDateTime}
 
 import scala.util.{Failure, Success, Try}
 
-/**
- * Created by falmeida@3elos on 8/26/15.
- */
-
-
-object Constants {
-
-  sealed trait TimeUnit
-
-  case object Second extends TimeUnit
-
-  case object Minute extends TimeUnit
-
-  case object Hour extends TimeUnit
-
-  case object Day extends TimeUnit
-
-  case object Week extends TimeUnit
-
-  case object Month extends TimeUnit
-
-  case object Year extends TimeUnit
-
-  sealed trait Operation
-
-  case object Addition extends Operation
-
-  case object Subtraction extends Operation
-
-}
-
-object DateMath {
+private [date] object DateMath {
 
   import Constants._
 
@@ -129,13 +97,13 @@ object DateMath {
       case Day => base.withHour(0).withMinute(0).withSecond(0).withNano(0)
       case Week => {
         base.getDayOfWeek match {
-          case DayOfWeek.MONDAY => base.withHour(0).withMinute(0).withSecond(0).withNano(0)
-          case DayOfWeek.TUESDAY => base.minusDays(1).withHour(0).withMinute(0).withSecond(0).withNano(0)
-          case DayOfWeek.WEDNESDAY => base.minusDays(2).withHour(0).withMinute(0).withSecond(0).withNano(0)
-          case DayOfWeek.THURSDAY => base.minusDays(3).withHour(0).withMinute(0).withSecond(0).withNano(0)
-          case DayOfWeek.FRIDAY => base.minusDays(4).withHour(0).withMinute(0).withSecond(0).withNano(0)
-          case DayOfWeek.SATURDAY => base.minusDays(5).withHour(0).withMinute(0).withSecond(0).withNano(0)
-          case DayOfWeek.SUNDAY => base.minusDays(6).withHour(0).withMinute(0).withSecond(0).withNano(0)
+          case JTDayOfWeek.MONDAY => base.withHour(0).withMinute(0).withSecond(0).withNano(0)
+          case JTDayOfWeek.TUESDAY => base.minusDays(1).withHour(0).withMinute(0).withSecond(0).withNano(0)
+          case JTDayOfWeek.WEDNESDAY => base.minusDays(2).withHour(0).withMinute(0).withSecond(0).withNano(0)
+          case JTDayOfWeek.THURSDAY => base.minusDays(3).withHour(0).withMinute(0).withSecond(0).withNano(0)
+          case JTDayOfWeek.FRIDAY => base.minusDays(4).withHour(0).withMinute(0).withSecond(0).withNano(0)
+          case JTDayOfWeek.SATURDAY => base.minusDays(5).withHour(0).withMinute(0).withSecond(0).withNano(0)
+          case JTDayOfWeek.SUNDAY => base.minusDays(6).withHour(0).withMinute(0).withSecond(0).withNano(0)
         }
       }
       case Month => base.withDayOfMonth(1).withHour(0).withMinute(0).withSecond(0).withNano(0)

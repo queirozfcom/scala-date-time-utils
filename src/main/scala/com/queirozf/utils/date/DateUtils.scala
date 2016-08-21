@@ -1,25 +1,16 @@
-package helpers.date
+package com.queirozf.utils.date
 
-import java.sql.{
-Timestamp => SQLTimestamp,
-Time => SQLTime,
-Date => SQLDate
-}
+import java.sql.{Date => SQLDate, Time => SQLTime, Timestamp => SQLTimestamp}
 import java.time._
-import java.time.format.{DateTimeFormatter, DateTimeParseException}
-import helpers.date.parsers.DateMath
-import play.api.Play
-import play.api.libs.json.{JsString, JsValue, JsObject}
-import scala.util.{Success, Failure, Try}
-import play.api.Play.current
+import java.time.format.DateTimeFormatter
 
-sealed case class ValidDateString(value: String)
+import scala.util.{Failure, Success, Try}
 
-object DateHelper {
+object DateUtils {
 
-  private def displayZoneIdStr: String = Play.configuration.getString("sisc.display.datetime.zoneId").get
+  private def displayZoneIdStr: String = "America/Sao_Paulo"
 
-  private def fallbackSourceZoneIdStr: String = Play.configuration.getString("sisc.datasources.datetime.defaultZoneId").get
+  private def fallbackSourceZoneIdStr: String = "UTC"
 
   def parse(dateString: String): Try[ZonedDateTime] = parseString(dateString)
 
@@ -95,18 +86,6 @@ object DateHelper {
     case Success(zdt) => toString(zdt)
     case Failure(_) => str
   }
-
-  def formatIfDate(jsobj: JsObject): JsObject = {
-    val fields: Seq[(String, JsValue)] = jsobj.fieldSet.map { case (key: String, value: JsValue) =>
-      value match {
-        case JsString(str) => (key, JsString(formatIfDate(str)).asInstanceOf[JsValue])
-        case _ => (key, value)
-      }
-    }.toSeq
-
-    JsObject(fields)
-  }
-
 
   private val nowPattern = """(now|NOW)"""
 
