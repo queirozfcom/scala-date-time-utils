@@ -3,7 +3,7 @@ name := "scala-date-time-utils"
 
 scalaVersion := "2.11.8"
 
-version := "0.1.0"
+version := "0.1.1"
 
 // this will be your groupId
 organization := "com.queirozf"
