@@ -123,7 +123,7 @@ object DateUtils {
         case None => Success(correctDate) //no truncation needed
       }
 
-    } else tryISOParse(str)
+    } else tryISOParse(str).orElse(tryEpochParse(str))
   }
 
   /**
@@ -147,6 +147,20 @@ object DateUtils {
         }
       }
     }
+  }
+
+  private def tryEpochParse(str:String) : Try[ZonedDateTime] = {
+    for{
+      asLong <- Try(str.toLong)
+      asZDT <- {
+
+        // if the string has 12 digits or more, assume it's milliseconds
+        // http://stackoverflow.com/a/23982005/436721
+
+        if(str.length >= 12) Try(Instant.ofEpochMilli(asLong))
+        else Try(Instant.ofEpochSecond(asLong))
+      }
+    } yield asZDT.atZone(ZoneId.of("UTC"))
   }
 
   private def extractMathOperations(str: ValidDateString): Seq[MathArgs] = {

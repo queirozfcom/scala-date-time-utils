@@ -1,5 +1,5 @@
 import java.time.temporal.ChronoUnit._
-import java.time.{Duration, ZonedDateTime => ZDT}
+import java.time.{Duration, Instant, ZoneId, ZonedDateTime => ZDT}
 
 import org.scalatest.{FlatSpec, MustMatchers}
 import com.queirozf.utils.date.{DateUtils => Utils}
@@ -13,8 +13,8 @@ class DateUtilsSpec extends FlatSpec with MustMatchers {
   def assertCloseEnough(t1: ZDT, t2: ZDT) = {
 
     // the parser takes a few milliseconds to parse dates so now() called before parsing will never
-    // match now() after the parser has finished parsing, so 100 milliseconds should suffice
-    if (Duration.between(t1, t2).toMillis <= Duration.ofMillis(100).toMillis)
+    // match now() after the parser has finished parsing, so 200 milliseconds should suffice
+    if (Duration.between(t1, t2).toMillis <= Duration.ofMillis(200).toMillis)
       ()
     else {
       val dur = Duration.between(t1, t2)
@@ -158,6 +158,30 @@ class DateUtilsSpec extends FlatSpec with MustMatchers {
     Utils.parse("2015-04-26T00:00:58Z").get must equal(fullDate)
     Utils.parse("2015-04-26").get must equal(fullDateStartOfDay)
 
+  }
+
+  it should "parse epoch milliseconds, assuming UTC" in {
+
+    val millisStr = "1472495308075"
+    val millisLong = 1472495308075L
+
+    // this is the equivalent form, manually created
+    val manuallyCreated = Instant.ofEpochMilli(millisLong).atZone(ZoneId.of("UTC"))
+    val parsed = Utils.parse(millisStr)
+
+    manuallyCreated must equal(parsed.get)
+
+  }
+
+  it should "parse epoch seconds, assuming UTC" in {
+    val secondsStr = "1472495308"
+    val secondsLong = 1472495308L
+
+    // this is the equivalent form, manually created
+    val manuallyCreated = Instant.ofEpochSecond(secondsLong).atZone(ZoneId.of("UTC"))
+    val parsed = Utils.parse(secondsStr)
+
+    manuallyCreated must equal(parsed.get)
   }
 
 }
