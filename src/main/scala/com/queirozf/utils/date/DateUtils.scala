@@ -87,6 +87,20 @@ object DateUtils {
     case Failure(_) => str
   }
 
+  /**
+    * ZonedDateTime class has no method toEpochMillis, only toEpochSecond
+    *
+    * @param zdt
+    * @return
+    */
+  def toEpochMillis(zdt: ZonedDateTime) : Long = {
+    val numSeconds = zdt.toEpochSecond
+    val extraMillis = zdt.getNano / 1000000
+
+    numSeconds * 1000 + extraMillis
+  }
+
+
   private val nowPattern = """(now|NOW)"""
 
   private val mathArgsPattern = """([+-])(\d+)?([sSmMhHdDyYwW])"""

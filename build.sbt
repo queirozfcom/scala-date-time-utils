@@ -3,7 +3,7 @@ name := "scala-date-time-utils"
 
 crossScalaVersions := Seq("2.11.8","2.10.6")
 
-version := "0.1.5"
+version := "0.1.6"
 
 // this will be your groupId
 organization := "com.queirozf"
