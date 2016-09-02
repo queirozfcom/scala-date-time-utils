@@ -1,5 +1,5 @@
 import java.time.temporal.ChronoUnit._
-import java.time.{Duration, Instant, ZoneId, ZonedDateTime => ZDT}
+import java.time.{Duration, Instant, ZoneId, ZoneOffset, ZonedDateTime => ZDT}
 
 import org.scalatest.{FlatSpec, MustMatchers}
 import com.queirozf.utils.date.{DateUtils => Utils}
@@ -153,10 +153,17 @@ class DateUtilsSpec extends FlatSpec with MustMatchers {
     val fullDate = ZDT.parse("2015-04-26T00:00:58.000Z")
     val fullDateStartOfDay = ZDT.parse("2015-04-26T00:00:00.000Z")
 
+    // if you don't call normalized,
+    val fullDateWithNanos = ZDT.of(2016,7,11,19,19,41,54180100,ZoneId.of("Z"))
+
     Utils.parse("2015-04-26T00:00:58.000Z").get must equal(fullDate)
     Utils.parse("2015-04-26T00:00:58").get must equal(fullDate)
     Utils.parse("2015-04-26T00:00:58Z").get must equal(fullDate)
     Utils.parse("2015-04-26").get must equal(fullDateStartOfDay)
+    Utils.parse("2016-07-11T19:19:41.0541801").get must equal(fullDateWithNanos)
+    Utils.parse("2016-07-11T19:19:41.0541801").get must equal(Utils.parse("2016-07-11T19:19:41.054180100Z").get)
+
+
 
   }
 
