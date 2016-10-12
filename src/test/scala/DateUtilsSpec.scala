@@ -98,6 +98,11 @@ class DateUtilsSpec extends FlatSpec with MustMatchers {
     assertCloseEnough(ZDT.now(), Utils.parse("now-2w+W+1w").get)
 
     assertCloseEnough(ZDT.now().plusDays(7), Utils.parse("now+8d-24h").get)
+
+    assertCloseEnough(ZDT.now().minusHours(1).minusMinutes(3).minusWeeks(1), Utils.parse("now-1h-3m-1w").get)
+
+
+
   }
 
   it should "parse now-based truncation" in {
