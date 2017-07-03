@@ -8,5 +8,5 @@ Add to `build.sbt`:
 ```
 resolvers += Resolver.bintrayRepo("queirozfcom","maven")
 
-libraryDependencies += "com.queirozf" %% "scala-date-time-utils" % "0.1.0"
+libraryDependencies += "com.queirozf" %% "scala-date-time-utils" % "0.1.7"
 ```
