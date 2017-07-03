@@ -8,5 +8,7 @@ Add to `build.sbt`:
 ```
 resolvers += Resolver.bintrayRepo("queirozfcom","maven")
 
-libraryDependencies += "com.queirozf" %% "scala-date-time-utils" % "0.1.7"
+libraryDependencies += "com.queirozf" %% "scala-date-time-utils" % "<see-latest-version-below>"
 ```
+
+[ ![Download](https://api.bintray.com/packages/queirozfcom/maven/scala-date-time-utils/images/download.svg) ](https://bintray.com/queirozfcom/maven/scala-date-time-utils/_latestVersion)
